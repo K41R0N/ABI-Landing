@@ -1,0 +1,2445 @@
+/* 
+   Urban Hideout CSS
+   Based on circular/pill design elements with grid-based transformations
+   
+   Color Palette:
+   - Primary: #000000 (Black)
+   - Secondary: #FFFFFF (White)
+   - Background: #FFFFFF (White)
+   - Text: #000000 (Black)
+   - Accent: #FCCB00 (Bright Yellow)
+*/
+
+/* Font declarations for Yellix */
+@font-face {
+  font-family: 'Yellix';
+  src: url('../fonts/Yellix-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Yellix';
+  src: url('../fonts/Yellix-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Yellix';
+  src: url('../fonts/Yellix-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Yellix';
+  src: url('../fonts/Yellix-ExtraBold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Yellix';
+  src: url('../fonts/Yellix-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Reset and base styles */
+:root {
+  /* Core colors */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-accent-1: #FCCB00; /* Urban Hideout Yellow */
+  --color-accent-2: #cdcdcd; /* Deep blue-gray */
+  --color-accent-1-light: rgba(252, 203, 0, 0.15); /* Light version of accent for subtle highlights */
+  --color-accent-1-dark: #e0b500; /* Darker version of accent for hover states */
+  
+  /* Font settings */
+  --font-heading: 'Yellix', sans-serif;
+  --font-body: 'Space Grotesk', sans-serif;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+  
+  /* Spacing - Enhanced 8pt grid system for better consistency */
+  --spacing-2xs: clamp(0.25rem, 0.5vw, 0.5rem);   /* 4-8px */
+  --spacing-xs: clamp(0.5rem, 1vw, 0.75rem);      /* 8-12px */
+  --spacing-sm: clamp(0.75rem, 1.5vw, 1rem);      /* 12-16px */
+  --spacing-md: clamp(1rem, 2vw, 1.5rem);         /* 16-24px */
+  --spacing-lg: clamp(1.5rem, 3vw, 2rem);         /* 24-32px */
+  --spacing-xl: clamp(2rem, 4vw, 3rem);           /* 32-48px */
+  --spacing-2xl: clamp(3rem, 6vw, 4.5rem);        /* 48-72px */
+  --spacing-3xl: clamp(4rem, 8vw, 6rem);          /* 64-96px */
+  --spacing-4xl: clamp(5rem, 10vw, 8rem);         /* 80-128px */
+  
+  /* Breakpoints for consistent responsive design */
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-xxl: 1400px;
+  
+  /* Grid system */
+  --grid-columns: 5;
+  --grid-gap: clamp(1rem, 2vw, 2rem);
+  
+  /* Circle sizes - the structural foundation */
+  --circle-size-xs: 2rem;
+  --circle-size-sm: clamp(3rem, 6vw, 5rem);
+  --circle-size-md: clamp(5rem, 10vw, 8rem);
+  --circle-size-lg: clamp(8rem, 16vw, 12rem);
+  --circle-size-xl: clamp(12rem, 24vw, 18rem);
+  --circle-size-xxl: clamp(18rem, 36vw, 28rem);
+  
+  /* Pill extensions from circles */
+  --pill-extension-sm: clamp(2rem, 4vw, 3rem);
+  --pill-extension-md: clamp(4rem, 8vw, 6rem);
+  --pill-extension-lg: clamp(6rem, 12vw, 9rem);
+  
+  /* Transitions */
+  --transition-fast: 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --transition-medium: 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --transition-slow: 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --transition-emphasis: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.6;
+  color: var(--color-black);
+  background-color: var(--color-white);
+  overflow-x: hidden;
+  position: relative;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+body.loaded {
+  opacity: 1;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.02em;
+  color: inherit;
+}
+
+h1 {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.1;
+  margin-bottom: var(--spacing-lg);
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  line-height: 1.15;
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.025em;
+}
+
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.25;
+  margin-bottom: var(--spacing-sm);
+  letter-spacing: -0.02em;
+}
+
+h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  line-height: 1.3;
+  margin-bottom: var(--spacing-sm);
+  letter-spacing: -0.015em;
+}
+
+p {
+  margin-bottom: var(--spacing-md);
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  max-width: 65ch;
+  line-height: 1.6;
+  color: inherit;
+}
+
+/* Improved text sizing for better readability */
+.text-large {
+  font-size: clamp(1.125rem, 2vw, 1.25rem);
+  line-height: 1.5;
+}
+
+.text-small {
+  font-size: clamp(0.875rem, 1.25vw, 1rem);
+  line-height: 1.5;
+}
+
+a {
+  color: currentColor;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  position: relative;
+  display: inline-block;
+  font-weight: var(--font-weight-medium);
+}
+
+a:hover {
+  color: var(--color-accent-1);
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========== LAYOUT SYSTEM BASED ON CIRCLES ========== */
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  grid-gap: var(--grid-gap);
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.container {
+  width: 90%;
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  padding: 0 var(--spacing-md);
+}
+
+/* Responsive container adjustments */
+@media (max-width: 1200px) {
+  .container {
+    width: 92%;
+    padding: 0 var(--spacing-lg);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+    padding: 0 var(--spacing-md);
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    width: 95%;
+    padding: 0 var(--spacing-sm);
+  }
+}
+
+/* ========== CIRCLE STRUCTURAL SYSTEM ========== */
+
+/* Base section styling with improved spacing */
+section {
+  position: relative;
+  padding: var(--spacing-3xl) 0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Responsive section padding adjustments */
+@media (max-width: 768px) {
+  section {
+    padding: var(--spacing-2xl) 0;
+  }
+}
+
+@media (max-width: 576px) {
+  section {
+    padding: var(--spacing-xl) 0;
+  }
+}
+
+/* The foundational circle element - all structural elements derive from this */
+.structural-circle {
+  position: absolute;
+  border-radius: 50%; /* Always perfect circles */
+  z-index: 1; /* Changed from 0 to position above background, but below content */
+  transition: transform var(--transition-slow), width var(--transition-slow), height var(--transition-slow);
+  will-change: transform;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12); /* Add subtle shadow for depth */
+}
+
+/* Circle size variations */
+.circle-xs {
+  width: var(--circle-size-xs);
+  height: var(--circle-size-xs);
+}
+
+.circle-sm {
+  width: var(--circle-size-sm);
+  height: var(--circle-size-sm);
+}
+
+.circle-md {
+  width: var(--circle-size-md);
+  height: var(--circle-size-md);
+}
+
+.circle-lg {
+  width: var(--circle-size-lg);
+  height: var(--circle-size-lg);
+}
+
+.circle-xl {
+  width: var(--circle-size-xl);
+  height: var(--circle-size-xl);
+}
+
+.circle-xxl {
+  width: var(--circle-size-xxl);
+  height: var(--circle-size-xxl);
+}
+
+/* Circle color variations */
+.circle-dark {
+  background-color: var(--color-black);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.circle-light {
+  background-color: var(--color-white);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.circle-accent-1 {
+  background-color: var(--color-accent-1);
+  box-shadow: 0 4px 10px rgba(252, 203, 0, 0.3);
+}
+
+.circle-accent-2 {
+  background-color: var(--color-accent-2);
+  box-shadow: 0 4px 10px rgba(45, 49, 66, 0.2);
+}
+
+/* Adding more color variations for design flexibility */
+.circle-accent-1-dark {
+  background-color: var(--color-accent-1-dark);
+  box-shadow: 0 4px 10px rgba(224, 181, 0, 0.3);
+}
+
+.circle-gray-light {
+  background-color: #f2f2f2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.circle-gray-dark {
+  background-color: #666666;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* ========== PILL SYSTEM - EXTENDING FROM CIRCLES ========== */
+
+.structural-pill {
+  position: absolute;
+  border-radius: 999px; /* Ensures pill-like shape */
+  z-index: 0;
+  transform-origin: center center;
+  transition: width var(--transition-medium), height var(--transition-medium);
+}
+
+.pill-horizontal {
+  height: var(--circle-size-md);
+  width: 0;
+  transition: width var(--transition-medium);
+}
+
+.pill-horizontal.active {
+  width: calc(100% / var(--grid-columns) * 3);
+}
+
+.pill-vertical {
+  width: var(--circle-size-md);
+  height: 0;
+  transition: height var(--transition-medium);
+}
+
+.pill-vertical.active {
+  height: calc(var(--circle-size-md) * 3);
+}
+
+/* Circle to pill transformations */
+.circle-to-pill {
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  width: var(--circle-size-md);
+  height: var(--circle-size-md);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.circle-to-pill.active {
+  width: 120px; /* or desired pill width */
+  border-radius: 99px;
+}
+
+/* ========== SECTION BOUNDARIES WITH CIRCLES ========== */
+
+.section-boundary {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  grid-gap: var(--grid-gap);
+  z-index: 10;
+}
+
+.boundary-top {
+  top: 0;
+  transform: translateY(-50%);
+}
+
+.boundary-bottom {
+  bottom: 0;
+  transform: translateY(50%);
+}
+
+/* Circle positions in the 5-column grid */
+.circle-col-1 {
+  grid-column: 1;
+  justify-self: center;
+}
+
+.circle-col-2 {
+  grid-column: 2;
+  justify-self: center;
+}
+
+.circle-col-3 {
+  grid-column: 3;
+  justify-self: center;
+}
+
+.circle-col-4 {
+  grid-column: 4;
+  justify-self: center;
+}
+
+.circle-col-5 {
+  grid-column: 5;
+  justify-self: center;
+}
+
+/* Section color variations */
+.section-dark {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.section-light {
+  background-color: var(--color-white);
+  color: var(--color-black);
+}
+
+/* ========== SECTION-SPECIFIC STYLING ========== */
+
+/* HERO SECTION */
+.hero {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-top: 120px;
+}
+
+.hero-content {
+  max-width: 800px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Hero to Problem Boundary Circles */
+.hero-problem-boundary {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+}
+
+.hero-problem-circle-1 {
+  grid-column: 1;
+  width: var(--circle-size-xl);
+  height: var(--circle-size-xl);
+  background-color: var(--color-black);
+  justify-self: center;
+  margin-top: 15px; /* Added spacing to prevent overlap */
+}
+
+.hero-problem-circle-2 {
+  grid-column: 3;
+  width: var(--circle-size-xl);
+  height: var(--circle-size-xl);
+  background-color: var(--color-black);
+  justify-self: center;
+  margin-top: -15px; /* Staggered position to prevent overlap */
+}
+
+.hero-problem-circle-3 {
+  grid-column: 5;
+  width: var(--circle-size-xl);
+  height: var(--circle-size-xl);
+  background-color: var(--color-black);
+  justify-self: center;
+  margin-top: 20px; /* Staggered position to prevent overlap */
+}
+
+/* In-section structural circles */
+.in-section-circle {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.hero-bg-circle-1 {
+  width: var(--circle-size-xxl);
+  height: var(--circle-size-xxl);
+  border: none;
+  top: 5%;
+  right: 10%;
+  z-index: -1;
+  background-color: var(--color-accent-2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.hero-bg-circle-2 {
+  width: var(--circle-size-lg);
+  height: var(--circle-size-lg);
+  border: none;
+  bottom: 20%;
+  left: 15%;
+  z-index: -1;
+  background-color: var(--color-accent-1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+/* PROBLEM SECTION */
+.problem-section {
+  padding: var(--spacing-xl) 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.problem-section h2,
+.problem-section p {
+  position: relative;
+  z-index: 2;
+  color: var(--color-white);
+}
+
+/* Problem background circle */
+.problem-bg-circle {
+  width: var(--circle-size-xxl);
+  height: var(--circle-size-xxl);
+  border: 1px solid rgba(255,255,255,0.1);
+  top: 20%;
+  left: 10%;
+  z-index: 0;
+}
+
+/* Problem to Solution Boundary */
+.problem-solution-boundary {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+}
+
+.problem-solution-circle-1 {
+  grid-column: 2;
+  width: var(--circle-size-xl);
+  height: var(--circle-size-xl);
+  background-color: var(--color-white);
+  justify-self: center;
+  margin-top: -10px;
+}
+
+.problem-solution-circle-2 {
+  grid-column: 4;
+  width: var(--circle-size-xl);
+  height: var(--circle-size-xl);
+  background-color: var(--color-white);
+  justify-self: center;
+}
+
+/* SOLUTION SECTION */
+.solution-section {
+  padding: var(--spacing-xl) 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Solution background circle */
+.solution-bg-circle {
+  width: var(--circle-size-xxl);
+  height: var(--circle-size-xxl);
+  border: 1px solid rgba(0,0,0,0.1);
+  top: 30%;
+  right: 5%;
+  z-index: 0;
+}
+
+/* Solution to Results Boundary */
+.solution-results-boundary {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+}
+
+.solution-results-circle-1 {
+  grid-column: 1;
+  width: var(--circle-size-xl);
+  height: var(--circle-size-xl);
+  background-color: var(--color-black);
+  justify-self: center;
+}
+
+.solution-results-circle-2 {
+  grid-column: 3;
+  width: var(--circle-size-xl);
+  height: var(--circle-size-xl);
+  background-color: var(--color-black);
+  justify-self: center;
+}
+
+.solution-results-circle-3 {
+  grid-column: 5;
+  width: var(--circle-size-xl);
+  height: var(--circle-size-xl);
+  background-color: var(--color-black);
+  justify-self: center;
+}
+
+/* RESULTS SECTION */
+.results-section {
+  padding: var(--spacing-xl) 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.results-section h2,
+.results-section p {
+  position: relative;
+  z-index: 2;
+  color: var(--color-white);
+}
+
+/* Results to CTA Boundary */
+.results-cta-boundary {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+}
+
+.results-cta-circle-1 {
+  grid-column: 2;
+  width: var(--circle-size-xl);
+  height: var(--circle-size-xl);
+  background-color: var(--color-white);
+  justify-self: center;
+}
+
+.results-cta-circle-2 {
+  grid-column: 4;
+  width: var(--circle-size-xl);
+  height: var(--circle-size-xl);
+  background-color: var(--color-white);
+  justify-self: center;
+}
+
+/* CTA SECTION */
+.cta-section {
+  padding: var(--spacing-xl) 0;
+  position: relative;
+}
+
+/* RESULTS GRID COMPONENTS */
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-gap: var(--grid-gap);
+  margin-top: var(--spacing-lg);
+}
+
+.metrics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.testimonial {
+  position: relative;
+  padding: var(--spacing-md);
+  z-index: 1;
+}
+
+.metrics-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.metrics-circle {
+  width: var(--circle-size-md);
+  height: var(--circle-size-md);
+  background-color: var(--color-accent-1);
+  border-radius: 50%;
+}
+
+.testimonial-circle {
+  position: absolute;
+  width: var(--circle-size-md);
+  height: var(--circle-size-md);
+  background-color: var(--color-accent-1);
+  opacity: 0.2;
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  transform: translate(-30%, -30%);
+  z-index: -1;
+}
+
+/* Enhanced Component Styling with improved spacing */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+  margin-top: var(--spacing-2xl);
+}
+
+.feature-card {
+  background-color: rgba(255,255,255,0.03);
+  padding: var(--spacing-xl);
+  border-radius: 16px;
+  transition: transform var(--transition-medium), box-shadow var(--transition-medium), background-color var(--transition-medium);
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease, background-color 0.5s ease;
+  border-left: none;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  background-color: rgba(252, 203, 0, 0.05);
+}
+
+.feature-card.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.feature-icon {
+  position: relative;
+  margin-bottom: var(--spacing-lg);
+  flex-shrink: 0;
+}
+
+.feature-icon .circle {
+  width: var(--circle-size-sm);
+  height: var(--circle-size-sm);
+  background-color: var(--color-white);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  transition: background-color var(--transition-medium);
+}
+
+.feature-card:hover .feature-icon .circle {
+  background-color: var(--color-accent-1);
+}
+
+.feature-card h3 {
+  margin-bottom: var(--spacing-md);
+  flex-shrink: 0;
+}
+
+.feature-card p {
+  flex-grow: 1;
+  margin-bottom: 0;
+}
+
+.solution-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-2xl);
+  margin-top: var(--spacing-2xl);
+}
+
+.solution-card {
+  background-color: rgba(0,0,0,0.03);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform var(--transition-medium);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.solution-card:hover {
+  transform: translateY(-5px);
+}
+
+.solution-image {
+  height: 200px;
+  background-color: var(--color-accent-2);
+  flex-shrink: 0;
+}
+
+.solution-content {
+  padding: var(--spacing-xl);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.solution-content h3 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.solution-content p {
+  margin-bottom: var(--spacing-lg);
+  flex-grow: 1;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+  margin-top: auto;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent-1);
+  margin-bottom: var(--spacing-xs);
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: rgba(0,0,0,0.6);
+  line-height: 1.4;
+}
+
+/* Enhanced Metrics styling */
+.metrics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.metric {
+  position: relative;
+  padding-left: var(--spacing-xl);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.metric.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.metric::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--circle-size-xs);
+  height: var(--circle-size-xs);
+  background-color: var(--color-accent-1);
+  border-radius: 50%;
+}
+
+.metric-value {
+  display: block;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent-1);
+  margin-bottom: var(--spacing-xs);
+}
+
+.metric-label {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+  color: rgba(255,255,255,0.6);
+}
+
+.testimonial blockquote {
+  font-size: clamp(1.125rem, 2vw, 1.25rem);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.6;
+  color: var(--color-white);
+  font-style: italic;
+  margin-bottom: var(--spacing-sm);
+}
+
+.testimonial cite {
+  font-style: normal;
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.7);
+  font-weight: var(--font-weight-regular);
+}
+
+/* Enhanced Button styling - built around circle-to-pill concept */
+.btn {
+  display: inline-block;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  text-decoration: none;
+  min-height: 48px; /* Accessibility: minimum touch target */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 50px;
+  transform: translateX(-100%);
+  transition: transform var(--transition-medium);
+  z-index: -1;
+}
+
+.btn:hover,
+.btn:focus {
+  transform: translateY(-2px);
+  color: var(--color-accent-1);
+  outline: 2px solid var(--color-accent-1);
+  outline-offset: 2px;
+}
+
+.btn:hover::before {
+  transform: translateX(0);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.section-dark .btn {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border: none;
+}
+
+.section-dark .btn:hover,
+.section-dark .btn:focus {
+  color: var(--color-accent-1);
+}
+
+/* Enhanced contact form with improved UX and accessibility */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  width: 100%;
+  max-width: 100%;
+  margin: var(--spacing-2xl) auto 0;
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff;
+  border-radius: 50px;
+  padding: var(--spacing-2xl);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form-fields {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-md);
+  width: 100%;
+  align-items: stretch;
+  margin-bottom: var(--spacing-md);
+}
+
+.contact-form input {
+  flex: 1;
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  transition: all var(--transition-fast);
+  min-height: 48px; /* Accessibility: minimum touch target */
+  min-width: 0;
+  background-color: white;
+}
+
+.contact-form input:focus {
+  outline: none;
+  border-color: var(--color-accent-1);
+  box-shadow: 0 0 0 3px rgba(252, 203, 0, 0.2);
+}
+
+.contact-form input::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 0.9rem;
+}
+
+.contact-form-expanded {
+  width: 100%;
+}
+
+.contact-form textarea {
+  width: 100%;
+  min-height: 140px;
+  border-radius: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  padding: var(--spacing-lg);
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  resize: vertical;
+  margin-bottom: var(--spacing-lg);
+  transition: all var(--transition-fast);
+  display: block;
+  background-color: white;
+  line-height: 1.5;
+}
+
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--color-accent-1);
+  box-shadow: 0 0 0 3px rgba(252, 203, 0, 0.2);
+}
+
+.contact-form textarea::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 0.9rem;
+}
+
+.contact-form button {
+  width: auto;
+  border-radius: 30px;
+  padding: var(--spacing-md) var(--spacing-xl);
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border: none;
+  transition: all var(--transition-fast);
+  align-self: flex-start;
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  min-height: 48px; /* Accessibility: minimum touch target */
+  cursor: pointer;
+}
+
+.contact-form button:hover,
+.contact-form button:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-black);
+  color: var(--color-accent-1);
+  outline: 2px solid var(--color-accent-1);
+  outline-offset: 2px;
+}
+
+.contact-form button:active {
+  transform: translateY(0);
+}
+
+/* Navigation and header */
+header {
+  position: fixed;
+  top: var(--spacing-md);
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-pill {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 50px;
+  padding: 0.5rem 1rem;
+  max-width: max-content;
+  margin: 0 auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  transition: background-color var(--transition-medium);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links ul {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.nav-links a {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-black);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  position: relative;
+  transition: color var(--transition-fast);
+}
+
+.nav-links a.active {
+  color: var(--color-black);
+  font-weight: var(--font-weight-bold);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background-color: var(--color-accent-1);
+  transition: width var(--transition-fast);
+  border-radius: 1.5px;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+.logo-container {
+  position: fixed;
+  top: calc(var(--spacing-md) - 38px); /* Adjusted to vertically center with the navbar */
+  left: var(--spacing-md);
+  z-index: 1000;
+}
+
+.logo-container svg {
+  width: 125px;
+  height: 125px;
+  transition: transform var(--transition-medium);
+}
+
+.logo-container svg .cls-1 {
+  fill: var(--color-black);
+  transition: fill var(--transition-medium);
+}
+
+.logo-container:hover svg {
+  transform: scale(1.1);
+}
+
+/* Make the logo white when over dark sections */
+.section-dark .logo-container svg .cls-1,
+.hero .logo-container svg .cls-1,
+.logo-container.over-dark-section svg .cls-1 {
+  fill: var(--color-white);
+}
+
+/* Footer */
+footer {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding: var(--spacing-xl) 0 var(--spacing-md);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--spacing-lg);
+}
+
+.footer-logo {
+  max-width: 300px;
+}
+
+.footer-logo a {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.footer-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+}
+
+.link-group h4 {
+  font-family: var(--font-heading);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: var(--color-white);
+}
+
+.link-group a {
+  display: block;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 0.5rem;
+}
+
+.link-group a:hover {
+  color: var(--color-accent-1);
+  background-color: transparent;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-bottom p {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 0;
+}
+
+.legal-links {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.legal-links a {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.5);
+}
+
+.legal-links a:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Base section header styling */
+.section-header {
+  position: relative;
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-sm);
+  z-index: 1;
+}
+
+.section-header.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Make the header position relative so the ::after pseudoelement positions properly */
+.section-header h2 {
+  margin-bottom: var(--spacing-sm);
+  position: relative;
+  display: inline-block; /* This is important for proper positioning of the ::after */
+  z-index: 2; /* Make sure text is above the circles */
+}
+
+/* The underline below the heading */
+.section-header h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: var(--color-accent-1);
+  margin: var(--spacing-sm) auto 0;
+}
+
+.section-header p {
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  color: var(--color-accent-2);
+  position: relative;
+  z-index: 2;
+}
+
+/* Adding decorative circles to section headers - these vary by section */
+.section-header::before {
+  content: '';
+  position: absolute;
+  width: var(--circle-size-sm);
+  height: var(--circle-size-sm);
+  background-color: var(--color-accent-1);
+  border-radius: 50%;
+  top: -25px; /* Moved up to avoid overlap */
+  left: calc(50% - 150px); /* Moved further left to avoid overlap */
+  z-index: -1;
+}
+
+/* Base ::after circle - will be adjusted per section */
+.section-header::after {
+  content: '';
+  position: absolute;
+  width: var(--circle-size-xs);
+  height: var(--circle-size-xs);
+  background-color: var(--color-accent-2);
+  border-radius: 50%;
+  z-index: -1;
+  /* Center it initially behind the heading, but will be offset in sections */
+  top: 35px; /* Position near the heading vertically */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Problem section - position ::after circle bottom left of title */
+.problem-section .section-header::after {
+  top: 45px; /* Moved below title to avoid overlap */
+  left: calc(50% - 100px); /* Offset further to the left to avoid overlap */
+  width: var(--circle-size-xs);
+  height: var(--circle-size-xs);
+  background-color: var(--color-black);
+}
+
+/* Solution section - position ::after circle bottom right of title */
+.solution-section .section-header::after {
+  top: 50px; /* Moved further below title to avoid overlap */
+  left: calc(50% + 120px); /* Offset further to the right to avoid overlap */
+  width: var(--circle-size-sm);
+  height: var(--circle-size-sm);
+  background-color: var(--color-accent-1);
+}
+
+/* Results section - position ::after circle top right of title */
+.results-section .section-header::after {
+  top: 40px;
+  left: calc(50% + 120px); /* Moved further right to avoid overlap */
+  width: var(--circle-size-xs);
+  height: var(--circle-size-xs);
+  background-color: var(--color-accent-1);
+}
+
+/* CTA section - position ::after circle top left of title */
+.cta-section .section-header::after {
+  top: 60px; /* Moved below title to avoid overlap */
+  left: calc(50% - 120px); /* Moved further left to avoid overlap */
+  width: var(--circle-size-xs);
+  height: var(--circle-size-xs);
+  background-color: var(--color-accent-1);
+}
+
+/* Section specific header ::before circle customizations */
+.problem-section .section-header::before {
+  background-color: var(--color-accent-2);
+  left: calc(50% + 150px); /* Moved to opposite side to avoid overlap with ::after */
+  top: -20px;
+}
+
+.solution-section .section-header::before {
+  left: calc(50% - 120px);
+  top: -30px; /* Moved up more to avoid overlap */
+}
+
+.cta-section .section-header::before {
+  background-color: var(--color-white);
+  left: calc(50% + 120px); /* Moved to opposite side from ::after */
+  top: -25px;
+}
+
+/* Animation classes for lateral movement */
+.circle-to-pill-horizontal {
+  width: var(--circle-size-md);
+  height: var(--circle-size-md);
+  border-radius: 50%;
+  transition: width var(--transition-medium), border-radius var(--transition-medium);
+}
+
+.circle-to-pill-horizontal.active {
+  width: var(--pill-extension-lg);
+  border-radius: calc(var(--circle-size-md) / 2);
+}
+
+.circle-to-pill-vertical {
+  width: var(--circle-size-md);
+  height: var(--circle-size-md);
+  border-radius: 50%;
+  transition: height var(--transition-medium), border-radius var(--transition-medium);
+}
+
+.circle-to-pill-vertical.active {
+  height: var(--pill-extension-lg);
+  border-radius: calc(var(--circle-size-md) / 2);
+}
+
+/* Enhanced responsive layout system */
+
+/* Large tablets and small desktops */
+@media (max-width: 1200px) {
+    .feature-grid, 
+    .solution-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-xl);
+    }
+    
+    .nav-pill {
+        padding: var(--spacing-sm) var(--spacing-md);
+        width: 85%;
+    }
+}
+
+/* Tablets */
+@media (max-width: 992px) {
+    .nav-pill {
+        padding: var(--spacing-sm) var(--spacing-md);
+        width: 90%;
+    }
+    
+    .feature-grid, 
+    .solution-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    .metrics, 
+    .testimonial {
+        grid-column: span 3;
+    }
+    
+    .footer-logo,
+    .footer-links {
+        grid-column: span 2;
+    }
+    
+    .hero-content {
+        max-width: 600px;
+    }
+    
+    /* Adjust circle sizes for tablets */
+    .hero-problem-circle-1,
+    .hero-problem-circle-2,
+    .hero-problem-circle-3,
+    .problem-solution-circle-1,
+    .problem-solution-circle-2,
+    .solution-results-circle-1,
+    .solution-results-circle-2,
+    .solution-results-circle-3 {
+        width: var(--circle-size-lg);
+        height: var(--circle-size-lg);
+    }
+}
+
+/* Mobile tablets */
+@media (max-width: 768px) {
+    .nav-pill {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        width: 95%;
+    }
+    
+    .nav-links ul {
+        gap: var(--spacing-sm);
+    }
+    
+    .feature-grid,
+    .solution-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+    }
+    
+    .footer-links {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        align-items: flex-start;
+    }
+    
+    .footer-bottom p {
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .hero-content {
+        padding: var(--spacing-lg) 0;
+        max-width: 100%;
+    }
+    
+    /* Adjust circles for mobile tablets */
+    .hero-problem-circle-1,
+    .problem-solution-circle-1,
+    .solution-results-circle-1 {
+        grid-column: 1;
+        width: var(--circle-size-md);
+        height: var(--circle-size-md);
+    }
+    
+    .hero-problem-circle-3,
+    .problem-solution-circle-2,
+    .solution-results-circle-3 {
+        grid-column: 5;
+        width: var(--circle-size-md);
+        height: var(--circle-size-md);
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 576px) {
+    .feature-grid,
+    .solution-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    .contact-form input[type="text"],
+    .contact-form input[type="email"] {
+        grid-column: span 1;
+    }
+    
+    .nav-pill {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: 35px;
+        width: 98%;
+    }
+    
+    .nav-links ul {
+        gap: var(--spacing-xs);
+    }
+    
+    .hero-content {
+        padding: var(--spacing-md) 0;
+        text-align: center;
+    }
+    
+    .section-header {
+        text-align: center;
+        margin-bottom: var(--spacing-xl);
+    }
+    
+    .feature-card,
+    .solution-card {
+        text-align: center;
+        padding: var(--spacing-lg);
+    }
+    
+    /* Simplify circles on mobile */
+    .structural-circle {
+        display: none;
+    }
+    
+    .circle-to-pill-horizontal,
+    .circle-to-pill-vertical {
+        width: var(--circle-size-sm);
+        height: var(--circle-size-sm);
+    }
+}
+    
+    .feature-card {
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .hero-problem-circle-2,
+    .solution-results-circle-2 {
+        display: none;
+    }
+    
+    .hero-problem-circle-1,
+    .problem-solution-circle-1,
+    .solution-results-circle-1 {
+        width: var(--circle-size-sm);
+        height: var(--circle-size-sm);
+    }
+    
+    .hero-problem-circle-3,
+    .problem-solution-circle-2,
+    .solution-results-circle-3 {
+        width: var(--circle-size-sm);
+        height: var(--circle-size-sm);
+    }
+    
+    .problem-section,
+    .solution-section,
+    .results-section {
+        padding: var(--spacing-sm) 0;
+    }
+}
+
+/* Override for small screens */
+@media (max-width: 576px) {
+    .capture-form-fields,
+    .floating-capture-form.detached .capture-form-fields,
+    .floating-capture-form.expanded-full .capture-form-fields,
+    .floating-capture-form.pill.expanded-full .capture-form-fields {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+    
+    .capture-form-fields input {
+        margin-bottom: 8px;
+    }
+    
+    .floating-capture-form.expanded .capture-pill-form {
+        max-width: 90%;
+        padding: 15px;
+    }
+}
+
+/* Floating Capture Form Styles */
+.floating-capture-form {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all var(--transition-medium), position 0s;
+    will-change: transform;
+}
+
+.capture-dot {
+    width: 15px;
+    height: 15px;
+    background-color: var(--color-accent-1);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 2;
+    border: none;
+}
+
+.floating-capture-form.expanded .capture-dot {
+    opacity: 0;
+    transform: scale(0);
+    pointer-events: none;
+}
+
+.capture-pill-form {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 55px;
+    background-color: var(--color-white);
+    border-radius: 30px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    border: none;
+    display: flex;
+    overflow: hidden;
+    width: 0;
+    opacity: 0;
+    transition: width var(--transition-medium), opacity var(--transition-medium);
+    z-index: 1;
+}
+
+.floating-capture-form.expanded .capture-pill-form {
+    position: relative;
+    width: min(500px, 80vw);
+    height: auto;
+    opacity: 1;
+    pointer-events: all;
+    padding: 8px 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.floating-capture-form.expanded-full .capture-pill-form {
+    height: auto;
+    min-height: 200px;
+}
+
+.floating-capture-form.detached {
+    position: absolute;
+    bottom: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: transform 0.8s, top 0.3s ease-out;
+    z-index: 50;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+    border-radius: 20px;
+    max-width: 600px;
+    width: 90%;
+}
+
+.floating-capture-form.detached .capture-pill-form {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    opacity: 1;
+    transition: all 0.5s ease;
+}
+
+/* Style to match the CTA section form */
+.floating-capture-form.detached .capture-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .floating-capture-form.detached .capture-form-fields {
+        flex-direction: column;
+    }
+    
+    .floating-capture-form.expanded .capture-pill-form {
+        max-width: 90%;
+        padding: 15px;
+    }
+    
+    .capture-form-expanded textarea {
+        height: 120px;
+    }
+    
+    .submit-form-btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+/* Add/modify styles for the pill state */
+.floating-capture-form.pill {
+    transition: all 0.5s ease-in-out;
+}
+
+.floating-capture-form.pill .capture-dot {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.floating-capture-form.pill .capture-pill-form {
+    position: relative;
+    width: auto;
+    min-width: 400px;
+    height: auto;
+    opacity: 1;
+    pointer-events: all;
+    padding: 5px;
+    transition: all 0.5s ease-out;
+}
+
+/* Ensure the pill form is compact, but inputs have enough room */
+.floating-capture-form.pill .capture-form-fields {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.floating-capture-form.pill .capture-form-fields input {
+    height: 40px;
+    padding: 5px 10px;
+}
+
+/* Keep the expanded state unchanged */
+.floating-capture-form.expanded:not(.pill) .capture-pill-form,
+.floating-capture-form.expanded-full .capture-pill-form {
+    padding: 20px;
+}
+
+.floating-capture-form.expanded:not(.pill) .capture-form-fields input,
+.floating-capture-form.expanded-full .capture-form-fields input {
+    height: 45px;
+    padding: 12px 15px;
+}
+
+/* Ensure submit button is clearly visible */
+.floating-capture-form.detached .submit-form-btn {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin-top: 15px;
+    background-color: var(--color-black);
+    color: white;
+    font-weight: 500;
+    padding: 12px 25px;
+    border-radius: 30px;
+}
+
+/* Ensure input fields are clearly visible in detached form */
+.floating-capture-form.detached input,
+.floating-capture-form.detached .submit-form-btn {
+    display: block !important;
+}
+
+/* Critical visibility fix for detached form */
+.floating-capture-form.detached {
+    /* Ensure form is visible in detached state */
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.floating-capture-form.detached .capture-form-fields {
+    /* Force fields to be visible */
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Direct targeting of input fields */
+.floating-capture-form.detached input[type="text"],
+.floating-capture-form.detached input[type="email"] {
+    /* Force high contrast and visibility */
+    border: 2px solid #000 !important;
+    background-color: #fff !important;
+    color: #000 !important;
+    opacity: 1 !important;
+    height: auto !important;
+    padding: 12px !important;
+    margin-bottom: 10px !important;
+    width: 100% !important;
+    display: block !important;
+    visibility: visible !important;
+}
+
+/* Direct targeting of submit button */
+.floating-capture-form.detached .submit-form-btn {
+    /* Force visibility and styling */
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background-color: #000 !important;
+    color: #fff !important;
+    border: none !important;
+    padding: 12px 20px !important;
+    margin-top: 15px !important;
+    width: auto !important;
+}
+
+/* Critical visibility fix for detached form */
+.floating-capture-form.detached input[type="text"],
+.floating-capture-form.detached input[type="email"] {
+    border: 2px solid #333 !important;
+    background-color: white !important;
+    color: #333 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.floating-capture-form.detached .submit-form-btn {
+    background-color: #000 !important;
+    color: white !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Add/modify styles for the pill state */
+.floating-capture-form.pill {
+    transition: all 0.5s ease-in-out;
+}
+
+.floating-capture-form.pill .capture-dot {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.floating-capture-form.pill .capture-pill-form {
+    position: relative;
+    width: auto;
+    min-width: 400px;
+    height: auto;
+    opacity: 1;
+    pointer-events: all;
+    padding: 5px;
+    transition: all 0.5s ease-out;
+}
+
+/* Ensure the pill form is compact, but inputs have enough room */
+.floating-capture-form.pill .capture-form-fields {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.floating-capture-form.pill .capture-form-fields input {
+    height: 40px;
+    padding: 5px 10px;
+}
+
+/* Keep the expanded state unchanged */
+.floating-capture-form.expanded:not(.pill) .capture-pill-form,
+.floating-capture-form.expanded-full .capture-pill-form {
+    padding: 20px;
+}
+
+.floating-capture-form.expanded:not(.pill) .capture-form-fields input,
+.floating-capture-form.expanded-full .capture-form-fields input {
+    height: 45px;
+    padding: 12px 15px;
+}
+
+/* Floating capture form base styles */
+.capture-form-fields {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+    padding: 5px 0;
+    margin-bottom: 10px;
+    visibility: visible !important;
+}
+
+.capture-form-fields input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 30px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+    height: 45px;
+    min-width: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.capture-form-fields input::placeholder {
+    color: #666;
+    opacity: 1;
+}
+
+.capture-form-fields input:focus {
+    outline: none;
+    border-color: var(--color-accent-1);
+    box-shadow: 0 0 0 3px rgba(231, 200, 192, 0.2);
+}
+
+.expand-form-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--color-black);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform var(--transition-fast);
+    padding: 0;
+    margin-left: 5px;
+}
+
+.expand-form-btn svg {
+    width: 18px;
+    height: 18px;
+    transition: transform var(--transition-medium);
+}
+
+.expand-form-btn:hover {
+    transform: translateY(-2px);
+}
+
+.floating-capture-form.expanded-full .expand-form-btn svg {
+    transform: rotate(180deg);
+}
+
+.capture-form-expanded {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-medium);
+    margin-top: 0;
+    width: 100%;
+    display: none;
+}
+
+.floating-capture-form.expanded-full .capture-form-expanded {
+    max-height: 300px;
+    opacity: 1;
+    visibility: visible;
+    margin-top: 10px;
+    display: block;
+}
+
+.floating-capture-form.expanded-full .capture-form-fields {
+    display: flex;
+    flex-direction: column;
+}
+
+.capture-form-expanded textarea {
+    width: 100%;
+    height: 140px;
+    padding: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+    resize: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 15px;
+    display: block;
+    visibility: visible;
+    opacity: 1;
+}
+
+.capture-form-expanded textarea:focus {
+    outline: none;
+    border-color: var(--color-accent-1);
+    box-shadow: 0 0 0 3px rgba(231, 200, 192, 0.2);
+}
+
+.submit-form-btn {
+    font-family: var(--font-heading);
+    font-weight: var(--font-weight-bold);
+    padding: 0.75rem 1.5rem;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+    margin-top: var(--spacing-sm);
+}
+
+.submit-form-btn:hover {
+    background-color: var(--color-black);
+    color: var(--color-accent-1);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.capture-form-fields input:focus,
+.capture-form-expanded textarea:focus {
+    outline: none;
+    background-color: var(--color-accent-1-light);
+    border-color: var(--color-white);
+}
+
+/* Enhanced styles for detached state - when in CTA section */
+.floating-capture-form.detached {
+    position: relative;
+    margin: 20px auto;
+    z-index: 10;
+    display: block;
+    width: 100%;
+    max-width: 800px;
+    transition: all 0.5s ease;
+}
+
+.floating-capture-form.detached .capture-pill-form {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+    width: 100%;
+    opacity: 1;
+    transition: all 0.5s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Style to match the CTA section form */
+.floating-capture-form.detached .capture-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* Consolidated visibility rules for detached state */
+.floating-capture-form.detached .capture-form-expanded,
+.floating-capture-form.detached .capture-form-fields,
+.floating-capture-form.detached input,
+.floating-capture-form.detached textarea,
+.floating-capture-form.detached .submit-form-btn {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+}
+
+.floating-capture-form.detached .capture-form-expanded {
+    height: auto;
+    max-height: none;
+    margin-top: 15px;
+}
+
+@media (max-width: 768px) {
+    .floating-capture-form.detached .capture-form-fields {
+        flex-direction: column;
+    }
+}
+
+/* Hide expand button when form is detached in CTA section */
+.floating-capture-form.detached .expand-form-btn {
+    display: none;
+}
+
+/* For the pill hover state, we'll keep the fields inline */
+.floating-capture-form.pill .capture-form-fields {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* Make the form look better in the expanded state */
+.floating-capture-form.expanded .capture-pill-form {
+    max-width: 500px;
+    padding: 20px;
+}
+
+/* Special case for pill layout - must keep side by side */
+.floating-capture-form.pill .capture-form-fields {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* Fixed layout for the expanded form in floating state */
+.floating-capture-form.expanded:not(.detached) .capture-pill-form {
+    max-width: 500px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Make sure expanded state shows the textarea properly in all contexts */
+.floating-capture-form.expanded-full:not(.detached) .capture-form-fields {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Guarantee visibility of all elements in the expanded states */
+.floating-capture-form.expanded-full .capture-form-expanded,
+.floating-capture-form.expanded-full textarea,
+.floating-capture-form.expanded-full .submit-form-btn {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* For the pill hover state, keep fields inline but ensure expanded state works */
+.floating-capture-form.pill.expanded-full .capture-form-fields {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Consolidated floating form states */
+.floating-capture-form.pill .capture-form-fields,
+.floating-capture-form.expanded-full .capture-form-fields,
+.floating-capture-form.detached .capture-form-fields {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.floating-capture-form.expanded .capture-pill-form {
+    max-width: 500px;
+    padding: 20px;
+}
+
+/* Consolidated expanded form visibility */
+.floating-capture-form.expanded-full .capture-form-expanded,
+.floating-capture-form.pill.expanded-full .capture-form-expanded {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    max-height: 300px;
+}
+
+/* Media query to stack fields on small screens */
+@media (max-width: 768px) {
+    .capture-form-fields,
+    .floating-capture-form.detached .capture-form-fields,
+    .floating-capture-form.expanded-full .capture-form-fields,
+    .floating-capture-form.pill.expanded-full .capture-form-fields {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+/* Make sure the expanded form area is fully visible when expanded */
+.floating-capture-form.expanded-full .capture-form-expanded,
+.floating-capture-form.detached .capture-form-expanded {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    max-height: 300px !important;
+    width: 100%;
+    margin-top: 20px;
+    clear: both;
+}
+
+/* Adjust textarea for better layout */
+.capture-form-expanded textarea {
+    width: 100%;
+    height: 140px;
+    padding: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+    resize: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 15px;
+    display: block;
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Make sure the contact form layouts match the floating forms for consistency */
+@media (max-width: 576px) {
+  .contact-form-fields {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+}
+
+.floating-capture-form.detached {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-section .floating-capture-form.detached {
+    display: block;
+    width: 800px;
+    max-width: 90%;
+    margin: 0 auto;
+    position: relative;
+    left: auto;
+    transform: none;
+}
+
+.floating-capture-form.pill .expand-form-btn {
+    width: 30px;
+    height: 30px;
+    margin-left: 3px;
+}
+
+.floating-capture-form.pill .expand-form-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+/* Header decoration circles - positioned intentionally around headers */
+.header-circle-left {
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.header-circle-right {
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.header-circle-top {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.header-circle-bottom {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.header-circle-top-left {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  z-index: 1;
+}
+
+.header-circle-top-right {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  z-index: 1;
+}
+
+.header-circle-bottom-left {
+  position: absolute;
+  bottom: -15px;
+  left: -15px;
+  z-index: 1;
+}
+
+.header-circle-bottom-right {
+  position: absolute;
+  bottom: -15px;
+  right: -15px;
+  z-index: 1;
+}
+
+/* Header highlight circles - intentionally positioned for text emphasis */
+.header-highlight {
+  position: relative;
+}
+
+.header-highlight-circle {
+  position: absolute;
+  z-index: -1; /* Position behind the text */
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Section header highlight styles */
+.section-header {
+  position: relative;
+}
+
+.section-header-circle-left {
+  position: absolute;
+  left: -60px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.section-header-circle-right {
+  position: absolute;
+  right: -60px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+/* Hero section specific header decoration */
+.hero h1 {
+  position: relative;
+  z-index: 2; /* Ensure text is above circles */
+}
+
+.hero-heading-circle {
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.hero-heading-circle-1 {
+  width: var(--circle-size-md);
+  height: var(--circle-size-md);
+  top: -30%; /* Moved up more to avoid overlap */
+  left: -10%; /* Moved left more to avoid overlap */
+  background-color: var(--color-accent-1); /* Added solid color */
+}
+
+.hero-heading-circle-2 {
+  width: var(--circle-size-sm);
+  height: var(--circle-size-sm);
+  bottom: -25%; /* Moved down more to avoid overlap */
+  right: 15%; /* Moved right more to avoid overlap */
+  background-color: var(--color-accent-2); /* Added solid color */
+}
+
+/* Make sure all section headings have position relative for circle positioning */
+.problem-section h2,
+.solution-section h2,
+.results-section h2,
+.cta-section h2 {
+  position: relative;
+  z-index: 2;
+}
+
+/* Section specific header ::before circle customizations */
+.problem-section .section-header::before {
+  background-color: var(--color-accent-2);
+}
+
+.solution-section .section-header::before {
+  left: calc(50% - 120px);
+}
+
+.cta-section .section-header::before {
+  background-color: var(--color-white);
+}
