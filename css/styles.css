@@ -404,20 +404,6 @@ section {
   height: calc(var(--circle-size-md) * 3);
 }
 
-/* Circle to pill transformations */
-.circle-to-pill {
-  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-  width: var(--circle-size-md);
-  height: var(--circle-size-md);
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-.circle-to-pill.active {
-  width: 120px; /* or desired pill width */
-  border-radius: 99px;
-}
-
 /* ========== SECTION BOUNDARIES WITH CIRCLES ========== */
 
 .section-boundary {
@@ -784,22 +770,6 @@ section {
   position: relative;
   margin-bottom: var(--spacing-lg);
   flex-shrink: 0;
-}
-
-.feature-icon .circle {
-  width: var(--circle-size-sm);
-  height: var(--circle-size-sm);
-  background-color: var(--color-white);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  transition: background-color var(--transition-medium);
-}
-
-.feature-card:hover .feature-icon .circle {
-  background-color: var(--color-accent-1);
 }
 
 .feature-card h3 {
@@ -1333,113 +1303,7 @@ footer {
   z-index: 2;
 }
 
-/* Adding decorative circles to section headers - these vary by section */
-.section-header::before {
-  content: '';
-  position: absolute;
-  width: var(--circle-size-sm);
-  height: var(--circle-size-sm);
-  background-color: var(--color-accent-1);
-  border-radius: 50%;
-  top: -25px; /* Moved up to avoid overlap */
-  left: calc(50% - 150px); /* Moved further left to avoid overlap */
-  z-index: -1;
-}
-
-/* Base ::after circle - will be adjusted per section */
-.section-header::after {
-  content: '';
-  position: absolute;
-  width: var(--circle-size-xs);
-  height: var(--circle-size-xs);
-  background-color: var(--color-accent-2);
-  border-radius: 50%;
-  z-index: -1;
-  /* Center it initially behind the heading, but will be offset in sections */
-  top: 35px; /* Position near the heading vertically */
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* Problem section - position ::after circle bottom left of title */
-.problem-section .section-header::after {
-  top: 45px; /* Moved below title to avoid overlap */
-  left: calc(50% - 100px); /* Offset further to the left to avoid overlap */
-  width: var(--circle-size-xs);
-  height: var(--circle-size-xs);
-  background-color: var(--color-black);
-}
-
-/* Solution section - position ::after circle bottom right of title */
-.solution-section .section-header::after {
-  top: 50px; /* Moved further below title to avoid overlap */
-  left: calc(50% + 120px); /* Offset further to the right to avoid overlap */
-  width: var(--circle-size-sm);
-  height: var(--circle-size-sm);
-  background-color: var(--color-accent-1);
-}
-
-/* Results section - position ::after circle top right of title */
-.results-section .section-header::after {
-  top: 40px;
-  left: calc(50% + 120px); /* Moved further right to avoid overlap */
-  width: var(--circle-size-xs);
-  height: var(--circle-size-xs);
-  background-color: var(--color-accent-1);
-}
-
-/* CTA section - position ::after circle top left of title */
-.cta-section .section-header::after {
-  top: 60px; /* Moved below title to avoid overlap */
-  left: calc(50% - 120px); /* Moved further left to avoid overlap */
-  width: var(--circle-size-xs);
-  height: var(--circle-size-xs);
-  background-color: var(--color-accent-1);
-}
-
-/* Section specific header ::before circle customizations */
-.problem-section .section-header::before {
-  background-color: var(--color-accent-2);
-  left: calc(50% + 150px); /* Moved to opposite side to avoid overlap with ::after */
-  top: -20px;
-}
-
-.solution-section .section-header::before {
-  left: calc(50% - 120px);
-  top: -30px; /* Moved up more to avoid overlap */
-}
-
-.cta-section .section-header::before {
-  background-color: var(--color-white);
-  left: calc(50% + 120px); /* Moved to opposite side from ::after */
-  top: -25px;
-}
-
 /* Animation classes for lateral movement */
-.circle-to-pill-horizontal {
-  width: var(--circle-size-md);
-  height: var(--circle-size-md);
-  border-radius: 50%;
-  transition: width var(--transition-medium), border-radius var(--transition-medium);
-}
-
-.circle-to-pill-horizontal.active {
-  width: var(--pill-extension-lg);
-  border-radius: calc(var(--circle-size-md) / 2);
-}
-
-.circle-to-pill-vertical {
-  width: var(--circle-size-md);
-  height: var(--circle-size-md);
-  border-radius: 50%;
-  transition: height var(--transition-medium), border-radius var(--transition-medium);
-}
-
-.circle-to-pill-vertical.active {
-  height: var(--pill-extension-lg);
-  border-radius: calc(var(--circle-size-md) / 2);
-}
-
 /* Enhanced responsive layout system */
 
 /* Large tablets and small desktops */
@@ -1594,12 +1458,6 @@ footer {
     /* Simplify circles on mobile */
     .structural-circle {
         display: none;
-    }
-    
-    .circle-to-pill-horizontal,
-    .circle-to-pill-vertical {
-        width: var(--circle-size-sm);
-        height: var(--circle-size-sm);
     }
 }
     
@@ -2299,127 +2157,10 @@ footer {
     height: 15px;
 }
 
-/* Header decoration circles - positioned intentionally around headers */
-.header-circle-left {
-  position: absolute;
-  left: -20px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
-}
-
-.header-circle-right {
-  position: absolute;
-  right: -20px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
-}
-
-.header-circle-top {
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-}
-
-.header-circle-bottom {
-  position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-}
-
-.header-circle-top-left {
-  position: absolute;
-  top: -15px;
-  left: -15px;
-  z-index: 1;
-}
-
-.header-circle-top-right {
-  position: absolute;
-  top: -15px;
-  right: -15px;
-  z-index: 1;
-}
-
-.header-circle-bottom-left {
-  position: absolute;
-  bottom: -15px;
-  left: -15px;
-  z-index: 1;
-}
-
-.header-circle-bottom-right {
-  position: absolute;
-  bottom: -15px;
-  right: -15px;
-  z-index: 1;
-}
-
-/* Header highlight circles - intentionally positioned for text emphasis */
-.header-highlight {
-  position: relative;
-}
-
-.header-highlight-circle {
-  position: absolute;
-  z-index: -1; /* Position behind the text */
-  border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Section header highlight styles */
-.section-header {
-  position: relative;
-}
-
-.section-header-circle-left {
-  position: absolute;
-  left: -60px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 0;
-}
-
-.section-header-circle-right {
-  position: absolute;
-  right: -60px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 0;
-}
-
 /* Hero section specific header decoration */
 .hero h1 {
   position: relative;
   z-index: 2; /* Ensure text is above circles */
-}
-
-.hero-heading-circle {
-  position: absolute;
-  z-index: 1;
-  border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.hero-heading-circle-1 {
-  width: var(--circle-size-md);
-  height: var(--circle-size-md);
-  top: -30%; /* Moved up more to avoid overlap */
-  left: -10%; /* Moved left more to avoid overlap */
-  background-color: var(--color-accent-1); /* Added solid color */
-}
-
-.hero-heading-circle-2 {
-  width: var(--circle-size-sm);
-  height: var(--circle-size-sm);
-  bottom: -25%; /* Moved down more to avoid overlap */
-  right: 15%; /* Moved right more to avoid overlap */
-  background-color: var(--color-accent-2); /* Added solid color */
 }
 
 /* Make sure all section headings have position relative for circle positioning */
@@ -2429,17 +2170,4 @@ footer {
 .cta-section h2 {
   position: relative;
   z-index: 2;
-}
-
-/* Section specific header ::before circle customizations */
-.problem-section .section-header::before {
-  background-color: var(--color-accent-2);
-}
-
-.solution-section .section-header::before {
-  left: calc(50% - 120px);
-}
-
-.cta-section .section-header::before {
-  background-color: var(--color-white);
 }

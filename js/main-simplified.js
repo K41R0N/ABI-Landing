@@ -56,7 +56,7 @@ function setupClassicScrollAnimations() {
     });
     
     // Observe elements that need to animate on scroll
-    document.querySelectorAll('.circle-to-pill, .section-header, .feature-card, .metric').forEach(el => {
+    document.querySelectorAll('.section-header, .feature-card, .metric').forEach(el => {
         observer.observe(el);
     });
 }
